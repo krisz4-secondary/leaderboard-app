@@ -9,7 +9,6 @@ const Leaderboard = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Searchbar />
-      <Spacer height={16} />
       <LeaderboardTable />
     </SafeAreaView>
   );

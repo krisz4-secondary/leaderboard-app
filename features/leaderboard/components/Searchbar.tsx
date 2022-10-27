@@ -1,7 +1,16 @@
-import { ImageProps, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
+import { ImageProps, StatusBar, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Icon,
+  Input,
+  Layout,
+  Text,
+} from "@ui-kitten/components";
 import { RenderFCProp } from "@ui-kitten/components/devsupport";
+import { useLeaderboardStore } from "../../../store/LeaderBoardStore";
 
 const SearchIcon = (props: Partial<ImageProps> | undefined) => (
   <Icon {...props} name="search" />
@@ -9,17 +18,39 @@ const SearchIcon = (props: Partial<ImageProps> | undefined) => (
 
 const Searchbar = () => {
   const [value, setValue] = useState("");
+  const { setFilterText, data } = useLeaderboardStore();
+  const [filteredData, setFilteredData] = useState(data);
+
+  useEffect(() => {
+    setFilteredData(data.filter((user) => user.name?.includes(value)));
+  }, [value]);
 
   return (
     <Layout level="2" style={styles.container}>
-      <Input
-        accessoryLeft={SearchIcon}
-        style={styles.input}
-        placeholder="Search for username..."
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
-      />
-      <Button appearance="outline">Search</Button>
+      <View style={{ flex: 1 }}>
+        <Autocomplete
+          accessoryLeft={SearchIcon}
+          style={styles.input}
+          placeholder="Search for username..."
+          value={value}
+          size="medium"
+          placement="bottom"
+          onSelect={(index) => setValue(filteredData[index].name)}
+          onChangeText={(nextValue) => setValue(nextValue)}
+        >
+          {filteredData.map((user) => (
+            <AutocompleteItem key={user.uid} title={user.name} />
+          ))}
+        </Autocomplete>
+      </View>
+      <Button
+        onPress={() => {
+          setFilterText(value);
+        }}
+        appearance="outline"
+      >
+        Search
+      </Button>
     </Layout>
   );
 };
@@ -29,11 +60,12 @@ export default Searchbar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "center",
     padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
   },
   input: {
-    flexGrow: 1,
-    marginRight: 2,
+    marginRight: 4,
+    alignSelf: "center",
   },
 });

@@ -11,7 +11,7 @@ interface LeaderboardState {
   initStore: () => void;
 }
 
-export const useDeliveryStore = create(
+export const useLeaderboardStore = create(
   persist<LeaderboardState>(
     (set) => ({
       data: [],
@@ -28,6 +28,8 @@ export const useDeliveryStore = create(
     {
       name: "leaderboard-store",
       getStorage: () => AsyncStorage,
+      /* @ts-ignore */
+      partialize: (state) => ({ data: state.data }),
     }
   )
 );
