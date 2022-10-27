@@ -3,13 +3,11 @@ import React, { useState } from "react";
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
 import { RenderFCProp } from "@ui-kitten/components/devsupport";
 
-type Props = {};
-
 const SearchIcon = (props: Partial<ImageProps> | undefined) => (
   <Icon {...props} name="search" />
 );
 
-const Searchbar = (props: Props) => {
+const Searchbar = () => {
   const [value, setValue] = useState("");
 
   return (
@@ -31,6 +29,8 @@ export default Searchbar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    alignItems: "center",
+    padding: 8,
   },
   input: {
     flexGrow: 1,

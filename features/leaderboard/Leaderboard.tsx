@@ -1,17 +1,16 @@
 import { StyleSheet } from "react-native";
-import React, { useState } from "react";
-import { Input, Layout } from "@ui-kitten/components";
+import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Searchbar from "./components/Searchbar";
+import LeaderboardTable from "./components/LeaderboardTable";
+import Spacer from "./components/Spacer";
 
-type Props = {};
-
-const Leaderboard = (props: Props) => {
+const Leaderboard = () => {
   return (
-    <SafeAreaView>
-      <Layout style={styles.container}>
-        <Searchbar />
-      </Layout>
+    <SafeAreaView style={styles.container}>
+      <Searchbar />
+      <Spacer height={16} />
+      <LeaderboardTable />
     </SafeAreaView>
   );
 };
