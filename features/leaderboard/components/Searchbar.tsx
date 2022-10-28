@@ -1,4 +1,10 @@
-import { ImageProps, StatusBar, StyleSheet, View } from "react-native";
+import {
+  ImageProps,
+  Keyboard,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
@@ -9,7 +15,6 @@ import {
   Layout,
   Text,
 } from "@ui-kitten/components";
-import { RenderFCProp } from "@ui-kitten/components/devsupport";
 import { useLeaderboardStore } from "../../../store/LeaderBoardStore";
 
 const SearchIcon = (props: Partial<ImageProps> | undefined) => (
@@ -19,10 +24,10 @@ const SearchIcon = (props: Partial<ImageProps> | undefined) => (
 const Searchbar = () => {
   const [value, setValue] = useState("");
   const { setFilterText, data } = useLeaderboardStore();
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredNames, setFilteredNames] = useState(data || []);
 
   useEffect(() => {
-    setFilteredData(data.filter((user) => user.name?.includes(value)));
+    setFilteredNames(data?.filter((user) => user.name?.includes(value)) || []);
   }, [value]);
 
   return (
@@ -35,10 +40,13 @@ const Searchbar = () => {
           value={value}
           size="medium"
           placement="bottom"
-          onSelect={(index) => setValue(filteredData[index].name)}
+          onSelect={(index) => {
+            setValue(filteredNames[index].name);
+            Keyboard.dismiss();
+          }}
           onChangeText={(nextValue) => setValue(nextValue)}
         >
-          {filteredData.map((user) => (
+          {filteredNames.map((user) => (
             <AutocompleteItem key={user.uid} title={user.name} />
           ))}
         </Autocomplete>

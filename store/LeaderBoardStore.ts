@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 import { User } from "../types";
 
 interface LeaderboardState {
-  data: User[];
+  data: User[] | null;
   setData: (value: User[]) => void;
   filterText: string;
   setFilterText: (text: string) => void;
@@ -14,7 +14,7 @@ interface LeaderboardState {
 export const useLeaderboardStore = create(
   persist<LeaderboardState>(
     (set) => ({
-      data: [],
+      data: null,
       setData: (value: User[]) => set({ data: value }),
       filterText: "",
       setFilterText: (text: string) => set({ filterText: text }),

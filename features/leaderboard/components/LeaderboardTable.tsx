@@ -1,46 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Divider, Layout, List, Spinner } from "@ui-kitten/components";
+import { Divider, Layout, List, Spinner, Text } from "@ui-kitten/components";
 import { User } from "../../../types";
 import { Header } from "./LeaderBoardTableHeader";
 import { Row } from "./LeaderboardTableRow";
 import { leaderboardTableStyles as styles } from "../styles";
 import { useLeaderboardStore } from "../../../store/LeaderBoardStore";
+import useLeadeboardData from "../hooks/useLeadeboardData";
 
 const LeaderboardTable = () => {
-  const [filteredData, setFilteredData] = useState<User[]>([]);
-  const { setData, data, filterText } = useLeaderboardStore();
-
-  useEffect(() => {
-    if (!data) {
-      //no cached data
-      const leaderboardData = require("../../../assets/leaderboard.json");
-      const leaderboardDataArray: User[] = Object.values(leaderboardData);
-      setData(
-        leaderboardDataArray.sort((a, b) =>
-          a.bananas < b.bananas ? 1 : a.bananas === b.bananas ? 0 : -1
-        )
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (filterText) {
-      const userIndex = data.findIndex((user) => user.name === filterText);
-      if (userIndex === -1) {
-        alert("User not found");
-      }
-      if (userIndex > 9) {
-        setFilteredData([...data.slice(0, 8), data[userIndex]]);
-        return;
-      }
-    }
-    setFilteredData(data.slice(0, 9));
-  }, [filterText]);
+  const { data, filterText } = useLeaderboardStore();
+  const { filteredData } = useLeadeboardData();
 
   if (!data) {
-    <Layout style={styles.emptyContainer}>
-      <Spinner size="large" />
-    </Layout>;
+    //loading screen in case leaderboard json not loaded
+    return (
+      <Layout style={styles.emptyContainer}>
+        <Spinner size="large" />
+      </Layout>
+    );
+  }
+
+  if (filteredData.length === 0) {
+    return (
+      <Layout style={styles.emptyContainer}>
+        <Text appearance="hint" category="h6">
+          Try searching for a valid user!
+        </Text>
+      </Layout>
+    );
   }
 
   return (
