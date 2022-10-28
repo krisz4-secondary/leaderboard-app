@@ -3,7 +3,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Searchbar from "./components/Searchbar";
 import LeaderboardTable from "./components/LeaderboardTable";
-import Spacer from "./components/Spacer";
 
 const Leaderboard = () => {
   return (

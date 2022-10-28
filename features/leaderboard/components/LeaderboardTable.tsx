@@ -1,15 +1,12 @@
-import { StyleSheet } from "react-native";
-import React, { useEffect, useMemo, useState } from "react";
-import { Divider, Layout, List, Spinner, Text } from "@ui-kitten/components";
+import React, { useEffect, useState } from "react";
+import { Divider, Layout, List, Spinner } from "@ui-kitten/components";
 import { User } from "../../../types";
 import { Header } from "./LeaderBoardTableHeader";
 import { Row } from "./LeaderboardTableRow";
 import { leaderboardTableStyles as styles } from "../styles";
 import { useLeaderboardStore } from "../../../store/LeaderBoardStore";
 
-type LeaderboardTableProps = {};
-
-const LeaderboardTable = (props: LeaderboardTableProps) => {
+const LeaderboardTable = () => {
   const [filteredData, setFilteredData] = useState<User[]>([]);
   const { setData, data, filterText } = useLeaderboardStore();
 

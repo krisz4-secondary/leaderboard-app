@@ -1,4 +1,4 @@
-import { Card, Layout, Text } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import { leaderboardTableStyles as styles } from "../styles";
 
 export const Header = () => (
